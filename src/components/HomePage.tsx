@@ -78,14 +78,14 @@ export default function HomePage() {
           <a
             href={whatsappLink('Hi! I would like to book a free live video demo. Please tell me which products I can see on video.')}
             target="_blank" rel="noopener noreferrer"
-            className="relative col-span-2 flex items-center justify-between gap-4 overflow-hidden rounded-3xl bg-accent p-5 text-white transition active:scale-[0.99] lg:col-span-4"
+            className="relative col-span-2 flex items-center justify-between gap-4 overflow-hidden rounded-3xl bg-[#176b45] p-5 text-white transition active:scale-[0.99] lg:col-span-4"
           >
             <div className="relative z-10">
-              <p className="font-heading text-lg font-bold">See it live before you buy</p>
+              <p className="font-heading text-base font-bold sm:text-lg">See it live before you buy</p>
               <p className="mt-1 max-w-xs text-xs text-white/85">Free WhatsApp video demo of the real product. No obligation.</p>
             </div>
             <span className="relative z-10 inline-flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-white px-4 text-xs font-bold text-zinc-900">
-              <Video className="h-4 w-4" /> Book demo
+              <MessageCircle className="h-4 w-4" /> Book demo
             </span>
           </a>
         </div>

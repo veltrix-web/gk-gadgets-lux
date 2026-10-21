@@ -88,13 +88,12 @@ export default function ProductPage() {
     </button>
   );
 
-  const cartControl = (
-    <div className="flex h-12 flex-1 items-center justify-between rounded-full bg-zinc-900 px-1.5 text-white">
+  const cartControl = quantity > 0 ? (
+    <div className="flex h-12 w-full items-center justify-between rounded-full bg-zinc-900 px-1.5 text-white">
       <button
         type="button"
         onClick={() => changeQuantity(quantity - 1)}
-        disabled={quantity === 0 || product.stock === 0}
-        className="grid h-9 w-9 place-items-center rounded-full transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-40"
+        className="grid h-9 w-9 place-items-center rounded-full transition hover:bg-white/15"
         aria-label={`Remove one ${product.name} from cart`}
       >
         <Minus className="h-4 w-4" />
@@ -105,13 +104,23 @@ export default function ProductPage() {
       <button
         type="button"
         onClick={addProductToCart}
-        disabled={product.stock === 0 || quantity >= product.stock}
+        disabled={quantity >= product.stock}
         className="grid h-9 w-9 place-items-center rounded-full transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-40"
         aria-label={`Add one ${product.name} to cart`}
       >
         <Plus className="h-4 w-4" />
       </button>
     </div>
+  ) : (
+    <button
+      type="button"
+      onClick={addProductToCart}
+      disabled={product.stock === 0}
+      className="inline-flex h-12 w-full flex-1 items-center justify-center gap-2 rounded-full bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:bg-zinc-300"
+    >
+      <Plus className="h-4 w-4" />
+      Add to cart
+    </button>
   );
 
   const updateActiveImage = () => {
@@ -338,13 +347,13 @@ export default function ProductPage() {
 
       <div className="glass shadow-dock fixed inset-x-4 bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] z-50 flex items-center gap-1.5 rounded-full border border-zinc-200/70 p-2 lg:hidden">
         <p className="min-w-[3.25rem] pl-1 font-heading text-sm font-extrabold text-zinc-950">{formatINR(product.price)}</p>
-        <div className="flex min-w-0 flex-1 [&>div]:h-10 [&>div]:px-1 [&_button]:h-8 [&_button]:w-8">
+        <div className="flex min-w-0 flex-1 [&>button]:h-10 [&>div]:h-10 [&>div]:px-1 [&_button]:h-8 [&_button]:w-8">
           {cartControl}
         </div>
         <button
           type="button"
           disabled
-          className="inline-flex h-10 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 px-3 text-xs font-semibold text-zinc-500"
+          className="inline-flex h-10 min-w-0 flex-1 cursor-not-allowed items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 px-2 text-xs font-semibold text-zinc-500"
         >
           Buy now
         </button>
