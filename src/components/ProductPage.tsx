@@ -118,7 +118,6 @@ export default function ProductPage() {
       disabled={product.stock === 0}
       className="inline-flex h-12 w-full flex-1 items-center justify-center gap-2 rounded-full bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:bg-zinc-300"
     >
-      <Plus className="h-4 w-4" />
       Add to cart
     </button>
   );
@@ -208,12 +207,12 @@ export default function ProductPage() {
   );
 
   const actionButtons = (
-    <div className="flex flex-col gap-2 sm:flex-row">
-      {cartControl}
+    <div className="grid grid-cols-2 gap-2">
+      <div className="min-w-0">{cartControl}</div>
       <button
         type="button"
         disabled
-        className="inline-flex h-12 flex-1 cursor-not-allowed items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 px-5 text-sm font-semibold text-zinc-500"
+        className="inline-flex h-12 w-full cursor-not-allowed items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 px-3 text-sm font-semibold text-zinc-500"
       >
         Buy now
       </button>
@@ -345,15 +344,14 @@ export default function ProductPage() {
         )}
       </div>
 
-      <div className="glass shadow-dock fixed inset-x-4 bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] z-50 flex items-center gap-1.5 rounded-full border border-zinc-200/70 p-2 lg:hidden">
-        <p className="min-w-[3.25rem] pl-1 font-heading text-sm font-extrabold text-zinc-950">{formatINR(product.price)}</p>
-        <div className="flex min-w-0 flex-1 [&>button]:h-10 [&>div]:h-10 [&>div]:px-1 [&_button]:h-8 [&_button]:w-8">
+      <div className="glass shadow-dock fixed inset-x-4 bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] z-50 grid grid-cols-2 gap-2 rounded-full border border-zinc-200/70 p-2 lg:hidden">
+        <div className="min-w-0 [&>button]:h-10 [&>div]:h-10 [&>div]:px-1 [&_button]:h-8 [&_button]:w-8">
           {cartControl}
         </div>
         <button
           type="button"
           disabled
-          className="inline-flex h-10 min-w-0 flex-1 cursor-not-allowed items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 px-2 text-xs font-semibold text-zinc-500"
+          className="inline-flex h-10 w-full cursor-not-allowed items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 px-2 text-sm font-semibold text-zinc-500"
         >
           Buy now
         </button>
