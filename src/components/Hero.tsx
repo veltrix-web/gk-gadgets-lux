@@ -50,16 +50,16 @@ export default function Hero() {
         </div>
 
         {/* Bottom row: CTA left, description right */}
-        <div className="absolute inset-x-0 bottom-0 z-20 flex flex-col gap-5 px-6 pb-7 sm:px-10 sm:pb-10 lg:flex-row lg:items-end lg:justify-between lg:px-16 lg:pb-14">
+        <div className="absolute inset-x-0 bottom-0 z-20 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 px-6 pb-7 sm:px-10 sm:pb-10 md:flex md:flex-row md:justify-between lg:px-16 lg:pb-14">
           <motion.a
             {...motionSafe({ initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 } })}
             transition={{ duration: 0.6, delay: 0.2 }}
             href="#categories"
-            className="inline-flex h-12 w-fit items-center justify-center rounded-full bg-accent px-7 font-heading text-sm font-semibold text-white shadow-[0_10px_24px_rgba(229,56,59,0.35)] transition hover:bg-accent-dark active:scale-[0.97]"
+            className="order-2 inline-flex h-11 w-fit items-center justify-center justify-self-end whitespace-nowrap rounded-full bg-accent px-4 font-heading text-xs font-semibold text-white shadow-[0_10px_24px_rgba(229,56,59,0.35)] transition hover:bg-accent-dark active:scale-[0.97] md:order-1 md:h-12 md:px-7 md:text-sm"
           >
             Shop by category
           </motion.a>
-          <div className="max-w-[16rem] lg:text-right">
+          <div className="order-1 max-w-[16rem] text-left md:order-2 lg:text-right">
             <p className="font-heading text-xs font-bold text-zinc-900">Description</p>
             <p className="mt-1 text-xs leading-relaxed text-zinc-600">
               Headphones, earbuds and smart watches at honest prices. 6-month warranty and free shipping across India.

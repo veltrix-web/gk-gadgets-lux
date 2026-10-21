@@ -145,7 +145,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-7xl px-4">
         <div className="grid gap-6 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-14">
           <div className="md:py-4">
-            <h2 className="font-heading text-2xl font-extrabold tracking-tight text-zinc-900 md:text-3xl">Questions, answered</h2>
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight text-zinc-900 md:text-3xl">Frequently asked questions</h2>
             <p className="mt-2 max-w-sm text-sm leading-relaxed text-zinc-600">
               Helpful details about delivery, warranty, replacements and product demos.
             </p>
@@ -174,23 +174,27 @@ export default function HomePage() {
 
       {/* Closing CTA */}
       <section className="mx-auto max-w-7xl px-4">
-        <div className="flex flex-col gap-5 rounded-3xl border border-zinc-200 bg-surface px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-7">
-          <div className="flex items-start gap-3">
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-[#176b45] shadow-sm">
-              <MessageCircle className="h-5 w-5" />
-            </span>
-            <div>
-              <h2 className="font-heading text-xl font-extrabold text-zinc-900 md:text-2xl">Deals and restock alerts</h2>
-              <p className="mt-1 max-w-sm text-sm leading-relaxed text-zinc-600">Get first access to new drops on WhatsApp. No spam.</p>
-            </div>
+        <div className="grid gap-7 overflow-hidden rounded-3xl bg-zinc-900 px-5 py-7 text-white sm:grid-cols-[1.1fr_0.9fr] sm:items-end sm:px-9 sm:py-9">
+          <div>
+            <h2 className="max-w-md font-heading text-2xl font-extrabold leading-tight tracking-tight md:text-3xl">Meet your next favorite gadget.</h2>
+            <a
+              href={whatsappLink('Hi! I would like to join the GK Gadgets Lux WhatsApp broadcast for deals and updates.')}
+              target="_blank" rel="noopener noreferrer"
+              className="mt-5 inline-flex h-11 items-center gap-3 rounded-full bg-white py-1 pl-4 pr-1 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              <MessageCircle className="h-4 w-4 text-[#176b45]" />
+              Get updates on WhatsApp
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-zinc-900 text-white">
+                <ArrowUpRight className="h-4 w-4" />
+              </span>
+            </a>
           </div>
-          <a
-            href={whatsappLink('Hi! I would like to join the GK Gadgets Lux WhatsApp broadcast for deals and updates.')}
-            target="_blank" rel="noopener noreferrer"
-            className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-[#176b45] px-5 font-heading text-sm font-semibold text-white transition hover:bg-[#145c3a] active:scale-[0.98]"
-          >
-            Join on WhatsApp <ArrowRight className="h-4 w-4" />
-          </a>
+          <div className="sm:ml-auto sm:max-w-xs">
+            <h3 className="font-heading text-sm font-semibold text-zinc-100">New drops and restocks</h3>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-300">
+              Get first access to new arrivals and deals, right in your WhatsApp. No spam.
+            </p>
+          </div>
         </div>
       </section>
     </div>

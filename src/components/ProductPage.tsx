@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Check, Heart, Minus, Plus, Star, Truck } from 'lucide-react';
 import { products } from '@/data/products';
-import { whatsappLink } from '@/lib/config';
+import { SAMPLE_REVIEWS, whatsappLink } from '@/lib/config';
 import { discountPercent, formatINR } from '@/lib/utils';
 import { useStore } from '@/store/StoreContext';
 import { useToast } from '@/store/ToastContext';
@@ -55,6 +55,7 @@ export default function ProductPage() {
     );
   }
 
+  const productReviews = SAMPLE_REVIEWS.filter((review) => review.product === product.name);
   const off = discountPercent(product.price, product.compareAtPrice);
   const cartItem = items.find((item) => item.productId === product.id && item.color === selectedColor);
   const quantity = cartItem?.quantity ?? 0;
@@ -227,7 +228,7 @@ export default function ProductPage() {
 
           <section className="lg:pt-2">
             <div className="flex items-center gap-1.5 text-sm text-zinc-600">
-              <Star className="h-4 w-4 fill-zinc-900 text-zinc-900" />
+              <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
               <span className="font-semibold text-zinc-900">{product.rating.toFixed(1)}</span>
               <span>({product.reviewCount} reviews)</span>
             </div>
@@ -333,6 +334,61 @@ export default function ProductPage() {
             </div>
           </section>
         </div>
+
+        <section aria-labelledby="product-reviews-heading" className="mt-10 border-t border-zinc-200 pt-8 lg:mt-14 lg:pt-10">
+          <h2 id="product-reviews-heading" className="font-heading text-xl font-bold text-zinc-900 sm:text-2xl">
+            Rating &amp; Reviews
+          </h2>
+          <div className="mt-5 grid gap-6 lg:grid-cols-[minmax(220px,0.7fr)_minmax(0,1.3fr)] lg:gap-12">
+            <div className="flex flex-col justify-center">
+              <div className="flex items-baseline gap-2">
+                <span className="font-heading text-6xl font-semibold tracking-tight text-zinc-950">{product.rating.toFixed(1)}</span>
+                <span className="text-base text-zinc-500">/ 5</span>
+              </div>
+              <div className="mt-2 flex items-center gap-1" aria-label={`${product.rating.toFixed(1)} out of 5 stars`}>
+                {Array.from({ length: 5 }, (_, index) => (
+                  <Star
+                    key={index}
+                    className={`h-4 w-4 ${index < Math.round(product.rating) ? 'fill-amber-400 text-amber-400' : 'text-zinc-300'}`}
+                  />
+                ))}
+              </div>
+              <p className="mt-2 text-sm text-zinc-500">
+                Based on {product.reviewCount.toLocaleString('en-IN')} reviews
+              </p>
+              <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-zinc-200" aria-hidden="true">
+                <div className="h-full rounded-full bg-zinc-900" style={{ width: `${(product.rating / 5) * 100}%` }} />
+              </div>
+              <p className="mt-1.5 text-xs text-zinc-500">Average customer rating</p>
+            </div>
+
+            <div className="space-y-3">
+              {productReviews.length > 0 ? productReviews.slice(0, 2).map((review) => (
+                <article key={`${review.name}-${review.product}`} className="rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <h3 className="font-heading text-sm font-semibold text-zinc-900">{review.name}</h3>
+                    <span className="text-xs text-zinc-500">{review.location}</span>
+                  </div>
+                  <div className="mt-2 flex items-center gap-1" aria-label={`${review.rating} out of 5 stars`}>
+                    {Array.from({ length: 5 }, (_, index) => (
+                      <Star
+                        key={index}
+                        className={`h-3.5 w-3.5 ${index < review.rating ? 'fill-amber-400 text-amber-400' : 'text-zinc-300'}`}
+                      />
+                    ))}
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-zinc-600">{review.text}</p>
+                </article>
+              )) : (
+                <div className="flex min-h-36 items-center rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6">
+                  <p className="max-w-md text-sm leading-relaxed text-zinc-600">
+                    Featured customer reviews for this product are not available yet.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
 
         {relatedProducts.length > 0 && (
           <section className="mt-10 lg:mt-16">
