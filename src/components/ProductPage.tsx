@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Check, Heart, MessageCircle, Plus, Star, Truck } from 'lucide-react';
+import { ArrowLeft, Check, Heart, Minus, Plus, Star, Truck } from 'lucide-react';
 import { products } from '@/data/products';
 import { whatsappLink } from '@/lib/config';
 import { discountPercent, formatINR } from '@/lib/utils';
@@ -23,7 +23,7 @@ const swatchColors: Record<string, string> = {
 export default function ProductPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const { addToCart, inWishlist, toggleWishlist } = useStore();
+  const { addToCart, inWishlist, items, toggleWishlist, updateQuantity } = useStore();
   const { notify } = useToast();
   const galleryRef = useRef<HTMLDivElement>(null);
   const product = products.find((item) => item.slug === slug);
@@ -56,15 +56,63 @@ export default function ProductPage() {
   }
 
   const off = discountPercent(product.price, product.compareAtPrice);
+  const cartItem = items.find((item) => item.productId === product.id && item.color === selectedColor);
+  const quantity = cartItem?.quantity ?? 0;
   const relatedProducts = products
     .filter((item) => item.category === product.category && item.id !== product.id)
     .slice(0, 4);
 
   const addProductToCart = () => {
-    if (product.stock === 0) return;
+    if (product.stock === 0 || quantity >= product.stock) return;
     addToCart(product, 1, selectedColor);
-    notify(`${product.name} added to cart`, 'success');
+    if (quantity === 0) notify(`${product.name} added to cart`, 'success');
   };
+
+  const changeQuantity = (nextQuantity: number) => {
+    if (nextQuantity > product.stock) return;
+    updateQuantity(product.id, selectedColor, nextQuantity);
+  };
+
+  const wishlistButton = (
+    <button
+      type="button"
+      onClick={() => {
+        toggleWishlist(product.id);
+        notify(wished ? 'Removed from saved' : 'Saved', 'wishlist');
+      }}
+      className="grid h-10 w-10 place-items-center rounded-full bg-white/90 text-zinc-800 shadow-sm backdrop-blur"
+      aria-label={wished ? 'Remove from saved' : 'Save product'}
+      aria-pressed={wished}
+    >
+      <Heart className={`h-5 w-5 ${wished ? 'fill-accent text-accent' : ''}`} />
+    </button>
+  );
+
+  const cartControl = (
+    <div className="flex h-12 flex-1 items-center justify-between rounded-full bg-zinc-900 px-1.5 text-white">
+      <button
+        type="button"
+        onClick={() => changeQuantity(quantity - 1)}
+        disabled={quantity === 0 || product.stock === 0}
+        className="grid h-9 w-9 place-items-center rounded-full transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-40"
+        aria-label={`Remove one ${product.name} from cart`}
+      >
+        <Minus className="h-4 w-4" />
+      </button>
+      <span className="min-w-6 text-center text-sm font-semibold" aria-live="polite" aria-label={`${quantity} in cart`}>
+        {quantity}
+      </span>
+      <button
+        type="button"
+        onClick={addProductToCart}
+        disabled={product.stock === 0 || quantity >= product.stock}
+        className="grid h-9 w-9 place-items-center rounded-full transition hover:bg-white/15 disabled:cursor-not-allowed disabled:opacity-40"
+        aria-label={`Add one ${product.name} to cart`}
+      >
+        <Plus className="h-4 w-4" />
+      </button>
+    </div>
+  );
 
   const updateActiveImage = () => {
     if (!galleryRef.current) return;
@@ -123,7 +171,7 @@ export default function ProductPage() {
         />
       </div>
 
-      <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between p-3 lg:hidden">
+      <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between p-3">
         <button
           type="button"
           onClick={() => navigate(-1)}
@@ -132,18 +180,7 @@ export default function ProductPage() {
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
-        <button
-          type="button"
-          onClick={() => {
-            toggleWishlist(product.id);
-            notify(wished ? 'Removed from saved' : 'Saved', 'wishlist');
-          }}
-          className="grid h-10 w-10 place-items-center rounded-full bg-white/90 text-zinc-800 shadow-sm backdrop-blur"
-          aria-label={wished ? 'Remove from saved' : 'Save product'}
-          aria-pressed={wished}
-        >
-          <Heart className={`h-5 w-5 ${wished ? 'fill-accent text-accent' : ''}`} />
-        </button>
+        {wishlistButton}
       </div>
 
       <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5 lg:hidden">
@@ -163,24 +200,14 @@ export default function ProductPage() {
 
   const actionButtons = (
     <div className="flex flex-col gap-2 sm:flex-row">
+      {cartControl}
       <button
         type="button"
-        onClick={addProductToCart}
-        disabled={product.stock === 0}
-        className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-zinc-900 px-5 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:bg-zinc-300"
+        disabled
+        className="inline-flex h-12 flex-1 cursor-not-allowed items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 px-5 text-sm font-semibold text-zinc-500"
       >
-        <Plus className="h-4 w-4" />
-        Add to cart
+        Buy now
       </button>
-      <a
-        href={whatsappLink(`Hi, I'm interested in ${product.name} (${formatINR(product.price)}).`)}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full border border-zinc-300 px-5 text-sm font-semibold text-zinc-800 transition hover:bg-zinc-50"
-      >
-        <MessageCircle className="h-4 w-4" />
-        Buy on WhatsApp
-      </a>
     </div>
   );
 
@@ -311,24 +338,16 @@ export default function ProductPage() {
 
       <div className="glass shadow-dock fixed inset-x-4 bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] z-50 flex items-center gap-1.5 rounded-full border border-zinc-200/70 p-2 lg:hidden">
         <p className="min-w-[3.25rem] pl-1 font-heading text-sm font-extrabold text-zinc-950">{formatINR(product.price)}</p>
+        <div className="flex min-w-0 flex-1 [&>div]:h-10 [&>div]:px-1 [&_button]:h-8 [&_button]:w-8">
+          {cartControl}
+        </div>
         <button
           type="button"
-          onClick={addProductToCart}
-          disabled={product.stock === 0}
-          className="inline-flex h-10 min-w-0 flex-1 items-center justify-center gap-1 rounded-full bg-zinc-900 px-2.5 text-[11px] font-semibold text-white transition active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-zinc-300 sm:gap-1.5 sm:px-3 sm:text-xs"
+          disabled
+          className="inline-flex h-10 shrink-0 cursor-not-allowed items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 px-3 text-xs font-semibold text-zinc-500"
         >
-          <Plus className="h-3.5 w-3.5 shrink-0" />
-          <span className="whitespace-nowrap">Add to cart</span>
+          Buy now
         </button>
-        <a
-          href={whatsappLink(`Hi, I'm interested in ${product.name} (${formatINR(product.price)}).`)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex h-10 min-w-0 flex-1 items-center justify-center gap-1 rounded-full border border-zinc-300 px-2 text-[11px] font-semibold text-zinc-800 sm:gap-1.5 sm:px-3 sm:text-xs"
-        >
-          <MessageCircle className="h-3.5 w-3.5 shrink-0" />
-          <span className="whitespace-nowrap">Buy on WhatsApp</span>
-        </a>
       </div>
     </div>
   );

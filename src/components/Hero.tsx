@@ -6,7 +6,7 @@ export const HERO_IMAGE = '/images/hero-headphone.png';
 export default function Hero() {
   return (
     <section className="mx-auto max-w-7xl px-3 pt-2 sm:px-4 sm:pt-4">
-      <div className="hero-card relative h-[540px] overflow-hidden rounded-[28px] bg-gradient-to-br from-[#e4e4e7] via-[#efeff1] to-[#f7f7f8] sm:h-[560px] md:h-[600px] lg:h-[640px]">
+      <div className="hero-card relative h-[470px] overflow-hidden rounded-[28px] bg-gradient-to-br from-[#e4e4e7] via-[#efeff1] to-[#f7f7f8] sm:h-[560px] md:h-[600px] lg:h-[640px]">
         {/* soft light from top right */}
         <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-white/70 blur-3xl" />
 
@@ -30,14 +30,14 @@ export default function Hero() {
           <motion.h1
             {...motionSafe({ initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 } })}
             transition={{ duration: 0.6, delay: 0.06 }}
-            className="mt-1 font-heading text-[2.9rem] font-extrabold leading-none tracking-tight text-zinc-950 sm:text-6xl lg:text-7xl"
+            className="mt-1 font-heading text-[2.5rem] font-extrabold leading-none tracking-tight text-zinc-950 sm:text-6xl lg:text-7xl"
           >
             Wireless
           </motion.h1>
         </div>
 
         {/* Product with soft floor shadows */}
-        <div className="pointer-events-none absolute left-1/2 top-[30%] z-10 w-[74%] -translate-x-1/2 sm:top-[22%] sm:w-[52%] md:w-[44%] lg:top-[12%] lg:w-[38%]">
+        <div className="pointer-events-none absolute left-1/2 top-[29%] z-10 w-[62%] -translate-x-1/2 sm:top-[22%] sm:w-[52%] md:w-[44%] lg:top-[12%] lg:w-[38%]">
           <div className="float-slow">
             <img
               src={HERO_IMAGE}

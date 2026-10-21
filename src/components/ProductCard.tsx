@@ -47,13 +47,6 @@ export default function ProductCard({ product }: { product: Product }) {
             alt={product.name}
             className="absolute inset-0 h-full w-full transition-transform duration-500 ease-out lg:group-hover:scale-105"
           />
-          {product.images[1] && (
-            <SmartImage
-              src={product.images[1]}
-              alt=""
-              className="absolute inset-0 hidden h-full w-full opacity-0 transition-opacity duration-500 lg:block lg:group-hover:opacity-100"
-            />
-          )}
         </div>
 
         {badge && (

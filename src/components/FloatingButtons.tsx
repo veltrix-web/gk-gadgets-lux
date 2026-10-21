@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { MessageCircle, Home, LayoutGrid, Heart, ShoppingBag, ArrowUp } from 'lucide-react';
+import { MessageCircle, Home, LayoutGrid, Heart, ShoppingBag, ArrowUp, UserRound } from 'lucide-react';
 import { useStore } from '@/store/StoreContext';
 import { whatsappLink } from '@/lib/config';
 
@@ -10,6 +10,7 @@ const tabs = [
   { icon: LayoutGrid, label: 'Shop', to: '/shop' },
   { icon: Heart, label: 'Saved', to: '/wishlist' },
   { icon: ShoppingBag, label: 'Cart', to: '/cart' },
+  { icon: UserRound, label: 'Account', to: '/profile' },
 ];
 
 export default function FloatingButtons() {
@@ -53,27 +54,27 @@ export default function FloatingButtons() {
       {/* Floating dock: inset from left, right and bottom, rounded, active tab highlighted */}
       {!isProductPage && (
         <nav aria-label="Primary" className="safe-bottom-dock fixed inset-x-4 z-50 lg:hidden">
-          <div className="glass mx-auto flex max-w-sm items-center justify-between rounded-full border border-zinc-200/70 p-1.5 shadow-dock">
+          <div className="glass mx-auto flex max-w-md items-center gap-1 rounded-full border border-zinc-200/70 p-1.5 shadow-dock">
             {tabs.map((t) => {
               const active = t.to === '/' ? pathname === '/' : pathname.startsWith(t.to);
               const badge = t.label === 'Cart' ? itemCount : t.label === 'Saved' ? wishlist.length : 0;
               return (
                 <Link
                   key={t.to} to={t.to} aria-current={active ? 'page' : undefined}
-                  className={`relative flex h-11 items-center justify-center gap-1.5 rounded-full transition-colors ${active ? 'px-4 text-white' : 'w-12 text-zinc-500'}`}
+                  className={`relative flex h-12 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 rounded-full transition-colors ${active ? 'text-white' : 'text-zinc-500'}`}
                 >
                   {active && (
                     <motion.span layoutId="dockActive" transition={{ type: 'spring', stiffness: 420, damping: 34 }} className="absolute inset-0 rounded-full bg-zinc-900" />
                   )}
                   <span className="relative">
-                    <t.icon className="h-5 w-5" strokeWidth={active ? 2.2 : 1.8} />
+                    <t.icon className="h-[18px] w-[18px]" strokeWidth={active ? 2.2 : 1.8} />
                     {badge > 0 && (
                       <span className={`absolute -right-2 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full px-1 text-[9px] font-bold text-white ring-2 ${active ? 'bg-accent ring-zinc-900' : 'bg-accent ring-white'}`}>
                         {badge}
                       </span>
                     )}
                   </span>
-                  {active && <span className="relative text-[13px] font-semibold">{t.label}</span>}
+                  <span className="relative text-[10px] font-medium leading-none">{t.label}</span>
                 </Link>
               );
             })}
