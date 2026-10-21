@@ -39,8 +39,8 @@ export default function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <article className="group flex flex-col">
-      <Link to={`/product/${product.slug}`} className="relative block overflow-hidden rounded-2xl bg-surface">
+    <article className="group relative flex flex-col">
+      <div className="relative overflow-hidden rounded-2xl bg-surface">
         <div className="relative aspect-square">
           <SmartImage
             src={product.images[0]}
@@ -62,21 +62,23 @@ export default function ProductCard({ product }: { product: Product }) {
           </span>
         )}
 
-        <button
-          onClick={handleWish}
-          aria-label={wished ? 'Remove from saved' : 'Save product'}
-          aria-pressed={wished}
-          className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-white/95 text-zinc-700 shadow-sm transition active:scale-90"
-        >
-          <Heart className={`h-4 w-4 ${wished ? 'fill-accent text-accent' : ''}`} />
-        </button>
+        <div className="absolute right-2 top-2 z-10">
+          <button
+            onClick={handleWish}
+            aria-label={wished ? 'Remove from saved' : 'Save product'}
+            aria-pressed={wished}
+            className="relative z-10 grid h-8 w-8 place-items-center rounded-full bg-white/95 text-zinc-700 shadow-sm transition active:scale-90"
+          >
+            <Heart className={`h-4 w-4 ${wished ? 'fill-accent text-accent' : ''}`} />
+          </button>
+        </div>
 
         {soldOut && (
-          <div className="absolute inset-0 grid place-items-center bg-white/70">
+          <div className="pointer-events-none absolute inset-0 grid place-items-center bg-white/70">
             <span className="rounded-full bg-zinc-900 px-3.5 py-1.5 text-xs font-semibold text-white">Sold out</span>
           </div>
         )}
-      </Link>
+      </div>
 
       <div className="flex flex-1 flex-col px-0.5 pt-3">
         <div className="flex items-center gap-1 text-[11px] text-zinc-500">
@@ -85,8 +87,11 @@ export default function ProductCard({ product }: { product: Product }) {
           <span>({product.reviewCount})</span>
         </div>
 
-        <Link to={`/product/${product.slug}`}>
-          <h3 className="mt-1 line-clamp-1 font-heading text-[13px] font-bold text-zinc-900 sm:text-sm">{product.name}</h3>
+        <Link
+          to={`/product/${product.slug}`}
+          className="font-heading after:absolute after:inset-0 after:content-['']"
+        >
+          <h3 className="mt-1 line-clamp-1 text-[13px] font-bold text-zinc-900 sm:text-sm">{product.name}</h3>
         </Link>
         <p className="mt-0.5 line-clamp-1 text-[11px] text-zinc-500 sm:text-xs">{product.shortDescription}</p>
 
@@ -106,7 +111,7 @@ export default function ProductCard({ product }: { product: Product }) {
             onClick={handleAdd}
             disabled={soldOut}
             aria-label={soldOut ? 'Sold out' : `Add ${product.name} to cart`}
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-zinc-900 text-white transition hover:bg-zinc-700 active:scale-90 disabled:cursor-not-allowed disabled:bg-zinc-200 disabled:text-zinc-400"
+            className="relative z-10 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-zinc-900 text-white transition hover:bg-zinc-700 active:scale-90 disabled:cursor-not-allowed disabled:bg-zinc-200 disabled:text-zinc-400"
           >
             <Plus className="h-[18px] w-[18px]" />
           </button>

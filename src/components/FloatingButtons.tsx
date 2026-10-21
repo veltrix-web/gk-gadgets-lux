@@ -16,6 +16,7 @@ export default function FloatingButtons() {
   const { itemCount, wishlist } = useStore();
   const [showTop, setShowTop] = useState(false);
   const { pathname } = useLocation();
+  const isProductPage = pathname.startsWith('/product/');
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 700);
@@ -26,7 +27,7 @@ export default function FloatingButtons() {
   return (
     <>
       {/* Utility buttons sit above the dock on phones */}
-      <div className="fixed bottom-[calc(5.75rem+env(safe-area-inset-bottom,0px))] right-4 z-40 flex flex-col items-end gap-2.5 lg:bottom-6 lg:right-6">
+      <div className={`fixed bottom-[calc(5.75rem+env(safe-area-inset-bottom,0px))] right-4 z-40 flex flex-col items-end gap-2.5 lg:bottom-6 lg:right-6 ${isProductPage ? 'max-lg:hidden' : ''}`}>
         <AnimatePresence>
           {showTop && (
             <motion.button
@@ -50,33 +51,35 @@ export default function FloatingButtons() {
       </div>
 
       {/* Floating dock: inset from left, right and bottom, rounded, active tab highlighted */}
-      <nav aria-label="Primary" className="safe-bottom-dock fixed inset-x-4 z-50 lg:hidden">
-        <div className="glass mx-auto flex max-w-sm items-center justify-between rounded-full border border-zinc-200/70 p-1.5 shadow-dock">
-          {tabs.map((t) => {
-            const active = t.to === '/' ? pathname === '/' : pathname.startsWith(t.to);
-            const badge = t.label === 'Cart' ? itemCount : t.label === 'Saved' ? wishlist.length : 0;
-            return (
-              <Link
-                key={t.to} to={t.to} aria-current={active ? 'page' : undefined}
-                className={`relative flex h-11 items-center justify-center gap-1.5 rounded-full transition-colors ${active ? 'px-4 text-white' : 'w-12 text-zinc-500'}`}
-              >
-                {active && (
-                  <motion.span layoutId="dockActive" transition={{ type: 'spring', stiffness: 420, damping: 34 }} className="absolute inset-0 rounded-full bg-zinc-900" />
-                )}
-                <span className="relative">
-                  <t.icon className="h-5 w-5" strokeWidth={active ? 2.2 : 1.8} />
-                  {badge > 0 && (
-                    <span className={`absolute -right-2 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full px-1 text-[9px] font-bold text-white ring-2 ${active ? 'bg-accent ring-zinc-900' : 'bg-accent ring-white'}`}>
-                      {badge}
-                    </span>
+      {!isProductPage && (
+        <nav aria-label="Primary" className="safe-bottom-dock fixed inset-x-4 z-50 lg:hidden">
+          <div className="glass mx-auto flex max-w-sm items-center justify-between rounded-full border border-zinc-200/70 p-1.5 shadow-dock">
+            {tabs.map((t) => {
+              const active = t.to === '/' ? pathname === '/' : pathname.startsWith(t.to);
+              const badge = t.label === 'Cart' ? itemCount : t.label === 'Saved' ? wishlist.length : 0;
+              return (
+                <Link
+                  key={t.to} to={t.to} aria-current={active ? 'page' : undefined}
+                  className={`relative flex h-11 items-center justify-center gap-1.5 rounded-full transition-colors ${active ? 'px-4 text-white' : 'w-12 text-zinc-500'}`}
+                >
+                  {active && (
+                    <motion.span layoutId="dockActive" transition={{ type: 'spring', stiffness: 420, damping: 34 }} className="absolute inset-0 rounded-full bg-zinc-900" />
                   )}
-                </span>
-                {active && <span className="relative text-[13px] font-semibold">{t.label}</span>}
-              </Link>
-            );
-          })}
-        </div>
-      </nav>
+                  <span className="relative">
+                    <t.icon className="h-5 w-5" strokeWidth={active ? 2.2 : 1.8} />
+                    {badge > 0 && (
+                      <span className={`absolute -right-2 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full px-1 text-[9px] font-bold text-white ring-2 ${active ? 'bg-accent ring-zinc-900' : 'bg-accent ring-white'}`}>
+                        {badge}
+                      </span>
+                    )}
+                  </span>
+                  {active && <span className="relative text-[13px] font-semibold">{t.label}</span>}
+                </Link>
+              );
+            })}
+          </div>
+        </nav>
+      )}
     </>
   );
 }
