@@ -38,15 +38,17 @@ export default function Footer() {
     <footer className="border-t border-zinc-200 bg-white">
       {/* Trust bar */}
       <div className="border-b border-zinc-100">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-3">
+        <div className="mx-auto grid max-w-7xl grid-cols-3 gap-2 bg-[#F5F5F7] px-4 py-5 sm:gap-4 sm:py-6">
           {[
             { icon: ShieldCheck, text: '6 Months Warranty' },
             { icon: RefreshCw, text: '7-Day Replacement' },
             { icon: Truck, text: 'Free Shipping Across India' },
           ].map((t) => (
-            <div key={t.text} className="flex items-center justify-center gap-2.5 text-sm font-semibold text-zinc-700">
-              <t.icon className="h-5 w-5 text-zinc-900" />
-              {t.text}
+            <div key={t.text} className="flex flex-col items-center gap-2 text-center sm:flex-row sm:justify-center sm:text-left">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-zinc-700 shadow-sm">
+                <t.icon className="h-4 w-4" />
+              </span>
+              <span className="text-[10px] font-semibold leading-tight text-zinc-700 sm:text-sm">{t.text}</span>
             </div>
           ))}
         </div>

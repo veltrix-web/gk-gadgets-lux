@@ -6,7 +6,7 @@ export const HERO_IMAGE = '/images/hero-headphone.png';
 export default function Hero() {
   return (
     <section className="mx-auto max-w-7xl px-3 pt-2 sm:px-4 sm:pt-4">
-      <div className="hero-card relative h-[470px] overflow-hidden rounded-[28px] bg-gradient-to-br from-[#e4e4e7] via-[#efeff1] to-[#f7f7f8] sm:h-[560px] md:h-[600px] lg:h-[640px]">
+      <div className="hero-card relative h-[470px] overflow-hidden rounded-[28px] bg-gradient-to-br from-[#e4e4e7] via-[#efeff1] to-[#f7f7f8] sm:h-[560px] md:h-[600px] lg:h-[580px] xl:h-[600px]">
         {/* soft light from top right */}
         <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-white/70 blur-3xl" />
 

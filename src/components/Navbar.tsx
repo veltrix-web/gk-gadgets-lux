@@ -58,17 +58,6 @@ export default function Navbar() {
   };
   const closeSearch = () => { setSearchOpen(false); setQuery(''); };
 
-  const SearchTrigger = ({ className = '' }: { className?: string }) => (
-    <button
-      onClick={() => setSearchOpen(true)}
-      className={`flex h-11 w-full items-center gap-2.5 rounded-full bg-zinc-100 px-4 text-left text-sm text-zinc-500 transition hover:bg-zinc-200/70 ${className}`}
-      aria-label="Search products"
-    >
-      <Search className="h-4 w-4 shrink-0 text-zinc-500" />
-      <span className="truncate">Search earbuds, headphones, watches</span>
-    </button>
-  );
-
   return (
     <>
       {/* Desktop-only info strip */}
@@ -90,13 +79,11 @@ export default function Navbar() {
               ))}
             </nav>
 
-            <div className="hidden w-64 lg:block xl:w-80"><SearchTrigger /></div>
-
             <div className="flex items-center gap-0.5 sm:gap-1">
               <button
                 type="button"
                 onClick={() => setSearchOpen(true)}
-                className="grid h-10 w-10 place-items-center rounded-full text-zinc-700 transition hover:bg-zinc-100 lg:hidden"
+                className="grid h-10 w-10 place-items-center rounded-full text-zinc-700 transition hover:bg-zinc-100"
                 aria-label="Search products"
               >
                 <Search className="h-5 w-5" />
@@ -130,7 +117,7 @@ export default function Navbar() {
         {searchOpen && (
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[80] bg-white lg:bg-black/40 lg:backdrop-blur-sm"
+            className="fixed inset-0 z-[80] bg-white lg:bg-zinc-950/20 lg:backdrop-blur-sm"
             onClick={closeSearch}
           >
             <motion.div
@@ -143,12 +130,12 @@ export default function Navbar() {
                 <button type="button" onClick={closeSearch} className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-zinc-700 hover:bg-zinc-100" aria-label="Close search">
                   <ArrowLeft className="h-5 w-5 lg:hidden" /><X className="hidden h-5 w-5 lg:block" />
                 </button>
-                <div className="flex h-11 flex-1 items-center gap-2.5 rounded-full bg-zinc-100 px-4">
+                <div className="flex h-11 flex-1 items-center gap-2.5 rounded-full bg-zinc-100 px-4 transition focus-within:ring-2 focus-within:ring-zinc-300 focus-within:ring-offset-1">
                   <Search className="h-4 w-4 text-zinc-500" />
                   <input
                     ref={inputRef} value={query} onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search products" enterKeyHint="search"
-                    className="min-w-0 flex-1 bg-transparent text-[15px] text-zinc-900 outline-none placeholder:text-zinc-400"
+                    className="min-w-0 flex-1 bg-transparent text-[15px] text-zinc-900 outline-none placeholder:text-zinc-400 focus-visible:!outline-none"
                   />
                   {query && (
                     <button type="button" onClick={() => setQuery('')} className="grid h-5 w-5 place-items-center rounded-full bg-zinc-300 text-white" aria-label="Clear">

@@ -142,32 +142,54 @@ export default function HomePage() {
       </section>
 
       {/* FAQ */}
-      <section className="mx-auto max-w-3xl px-4">
-        <Heading title="Questions" />
-        <div className="mt-4 divide-y divide-zinc-200 overflow-hidden rounded-3xl border border-zinc-200">
-          {FAQS.map((f) => (
-            <details key={f.q} className="group px-5 py-4">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                <span className="font-heading text-sm font-semibold text-zinc-900">{f.q}</span>
-                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-zinc-100 text-lg leading-none text-zinc-600 transition group-open:rotate-45">+</span>
-              </summary>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-600">{f.a}</p>
-            </details>
-          ))}
+      <section className="mx-auto max-w-7xl px-4">
+        <div className="grid gap-6 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] md:gap-14">
+          <div className="md:py-4">
+            <h2 className="font-heading text-2xl font-extrabold tracking-tight text-zinc-900 md:text-3xl">Questions, answered</h2>
+            <p className="mt-2 max-w-sm text-sm leading-relaxed text-zinc-600">
+              Helpful details about delivery, warranty, replacements and product demos.
+            </p>
+            <a
+              href={whatsappLink('Hi GK Gadgets Lux! I have a question.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex h-10 items-center gap-2 rounded-full border border-zinc-200 px-4 text-sm font-semibold text-zinc-800 transition hover:bg-zinc-50"
+            >
+              <MessageCircle className="h-4 w-4" /> Ask us on WhatsApp
+            </a>
+          </div>
+          <div className="divide-y divide-zinc-200 border-y border-zinc-200">
+            {FAQS.map((f) => (
+              <details key={f.q} className="group py-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
+                  <span className="font-heading text-sm font-semibold leading-relaxed text-zinc-900 sm:text-base">{f.q}</span>
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-zinc-200 text-lg leading-none text-zinc-500 transition group-open:rotate-45">+</span>
+                </summary>
+                <p className="mt-3 max-w-2xl pr-10 text-sm leading-relaxed text-zinc-600">{f.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Closing CTA */}
       <section className="mx-auto max-w-7xl px-4">
-        <div className="rounded-[28px] bg-zinc-900 p-7 text-center md:p-12">
-          <h2 className="font-heading text-2xl font-extrabold text-white md:text-3xl">Deals and restock alerts</h2>
-          <p className="mx-auto mt-2 max-w-sm text-sm text-zinc-400">Join our WhatsApp broadcast for first access to new drops. No spam.</p>
+        <div className="flex flex-col gap-5 rounded-3xl border border-zinc-200 bg-surface px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-7">
+          <div className="flex items-start gap-3">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white text-[#176b45] shadow-sm">
+              <MessageCircle className="h-5 w-5" />
+            </span>
+            <div>
+              <h2 className="font-heading text-xl font-extrabold text-zinc-900 md:text-2xl">Deals and restock alerts</h2>
+              <p className="mt-1 max-w-sm text-sm leading-relaxed text-zinc-600">Get first access to new drops on WhatsApp. No spam.</p>
+            </div>
+          </div>
           <a
             href={whatsappLink('Hi! I would like to join the GK Gadgets Lux WhatsApp broadcast for deals and updates.')}
             target="_blank" rel="noopener noreferrer"
-            className="mt-5 inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 font-heading text-sm font-semibold text-zinc-900 transition active:scale-[0.97]"
+            className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-[#176b45] px-5 font-heading text-sm font-semibold text-white transition hover:bg-[#145c3a] active:scale-[0.98]"
           >
-            <MessageCircle className="h-4 w-4" /> Join on WhatsApp
+            Join on WhatsApp <ArrowRight className="h-4 w-4" />
           </a>
         </div>
       </section>

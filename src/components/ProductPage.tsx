@@ -345,13 +345,13 @@ export default function ProductPage() {
       </div>
 
       <div className="glass shadow-dock fixed inset-x-4 bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] z-50 grid grid-cols-2 gap-2 rounded-full border border-zinc-200/70 p-2 lg:hidden">
-        <div className="min-w-0 [&>button]:h-10 [&>div]:h-10 [&>div]:px-1 [&_button]:h-8 [&_button]:w-8">
+        <div className="min-w-0">
           {cartControl}
         </div>
         <button
           type="button"
           disabled
-          className="inline-flex h-10 w-full cursor-not-allowed items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 px-2 text-sm font-semibold text-zinc-500"
+          className="inline-flex h-12 w-full cursor-not-allowed items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 px-2 text-sm font-semibold text-zinc-500"
         >
           Buy now
         </button>
